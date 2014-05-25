@@ -1,7 +1,7 @@
-file.url <- "https://d396qusza40orc.cloudfront.net/getdata%2Fprojectfiles%2FUCI%20HAR%20Dataset.zip"
-if (file.exists("har.zip")) file.remove("har.zip")
-download.file(file.url,destfile="har.zip",method='curl')
-unzip("har.zip")
+#file.url <- "https://d396qusza40orc.cloudfront.net/getdata%2Fprojectfiles%2FUCI%20HAR%20Dataset.zip"
+#if (file.exists("har.zip")) file.remove("har.zip")
+#download.file(file.url,destfile="har.zip",method='curl')
+#unzip("har.zip")
 # Reading x data sets and binding them, then cleaning intermediate sets for memory optimization
 x.train <- read.table("UCI HAR Dataset/train/X_train.txt")
 x.test <- read.table("UCI HAR Dataset/test/X_test.txt")
@@ -36,3 +36,6 @@ har.dataset <- cbind(subject.har.dataset,y.har.dataset,x.har.dataset)
 rm(subject.har.dataset,y.har.dataset,x.har.dataset)
 # Summarize by subject and activity in an independant dataset
 har.summary.dataset <- aggregate(har.dataset[,3:ncol(har.dataset)],by=list(har.dataset$subject,har.dataset$activity),mean,na.rm=TRUE)
+# Export tidy data set to file
+if (file.exists("har_dataset_tidy.txt")) file.remove("har_dataset_tidy.txt")
+write.table(har.dataset,file="har_dataset_tidy.txt",sep="\t",row.names=FALSE)
